@@ -17,7 +17,6 @@ REST-сервис. Сервис предоставляет REST-интерфей
 ## Реализация
 ✓ Приложение разработано с использованием Spring Boot.  
 ✓ Использован сборщик пакетов maven.  
-✓ Для запуска используется docker, docker-compose.  
 ✓ Класс [TokenScheduler](https://github.com/VioK0709/Cloudservice/blob/main/src/main/java/com/example/cloudservice/token_scheduler/TokenScheduler.java) гененирует новый токен авторизации каждый чаc.  
-✓ Код покрыт unit-тестами с использованием mockito.  
+✓ Код покрыт unit-тестами с использованием Mockito.  
 ✓ Для запуска приложения нужно открыть в браузере страницу по адресу http://localhost:8080/.
