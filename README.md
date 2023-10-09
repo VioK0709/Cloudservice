@@ -19,4 +19,4 @@ REST-сервис. Сервис предоставляет REST-интерфей
 ✓ Использован сборщик пакетов maven.  
 ✓ Класс [TokenScheduler](https://github.com/VioK0709/Cloudservice/blob/main/src/main/java/com/example/cloudservice/token_scheduler/TokenScheduler.java) гененирует новый токен авторизации каждый чаc.  
 ✓ Код покрыт unit-тестами с использованием Mockito.  
-✓ Для запуска приложения нужно открыть в браузере страницу по адресу http://localhost:8080/.
+✓ Для запуска приложения нужно открыть в браузере страницу по адресу http://localhost:8081/.
