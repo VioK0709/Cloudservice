@@ -4,6 +4,7 @@ import com.example.cloudservice.model.entity.FileEntity;
 import org.springframework.mock.web.MockMultipartFile;
 
 public class PrepareInfoForTest {
+
     public final static String TOKEN = "afe1716dc4be4ecabe2926decea2cffe";
     public final static String TEST = "test";
     public final static String NON_VALID_TEST = "nonValidTest";

@@ -19,9 +19,8 @@ import static java.util.Objects.isNull;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-
     private final AuthToken authToken;
+    private final UserRepository userRepository;
 
     @Override
     public AuthResponse loginUser(AuthRequest authRequest) {

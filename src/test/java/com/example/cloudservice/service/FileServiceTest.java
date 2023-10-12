@@ -21,7 +21,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import static com.example.cloudservice.exceptions.MessageConstant.*;
 import static com.example.cloudservice.service.PrepareInfoForTest.*;
 
-
 @SpringBootTest
 @Testcontainers
 @Transactional
@@ -34,7 +33,6 @@ public class FileServiceTest {
 
     @Autowired
     private FileRepository fileRepository;
-
 
     @MockBean
     private CheckTokenService checkTokenService;
@@ -87,7 +85,6 @@ public class FileServiceTest {
                         .header("auth-token", TOKEN))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-
 
     @Test
     public void getFileTest() throws Exception {

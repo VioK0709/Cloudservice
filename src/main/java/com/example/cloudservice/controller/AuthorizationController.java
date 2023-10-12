@@ -20,9 +20,7 @@ public class AuthorizationController {
 
     @PostMapping(value = LOGIN)
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
-        AuthResponse authResponse = userService.loginUser(authRequest);
-        return new ResponseEntity(authResponse, HttpStatus.OK);
-
+        return new ResponseEntity(userService.loginUser(authRequest), HttpStatus.OK);
     }
 
     @PostMapping(LOGOUT)

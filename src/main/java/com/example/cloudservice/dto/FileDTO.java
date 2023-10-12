@@ -1,4 +1,4 @@
-package com.example.cloudservice.model.dto;
+package com.example.cloudservice.dto;
 
 import com.example.cloudservice.model.entity.FileEntity;
 import lombok.Data;

@@ -2,8 +2,7 @@ package com.example.cloudservice.service;
 
 import com.example.cloudservice.exceptions.*;
 import com.example.cloudservice.model.AuthToken;
-import com.example.cloudservice.model.dto.FileResponse;
-import com.example.cloudservice.model.dto.NewFilenameRequest;
+import com.example.cloudservice.dto.NewFilenameRequest;
 import com.example.cloudservice.model.entity.FileEntity;
 import com.example.cloudservice.repository.FileRepository;
 import com.example.cloudservice.security.JwtTokenUtils;
@@ -18,11 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.example.cloudservice.exceptions.MessageConstant.*;
 import static java.util.Objects.isNull;
-
 
 @Data
 @Slf4j
@@ -33,11 +30,18 @@ public class FileServiceImpl implements FileService {
     private final FileRepository fileRepository;
     private final AuthToken token;
     private final JwtTokenUtils jwtTokenUtils;
-    private final CheckTokenService checkTokenService;
 
     @Override
-    public String uploadFile(String authToken, MultipartFile file) {
-        checkTokenService.testToken(authToken);
+    public List<FileEntity> getAllFiles() {
+        List<FileEntity> fileList = fileRepository.findAll();
+        if (fileList.isEmpty()) {
+            throw new GettingFileListException(ERROR_GETTING_FILE_LIST);
+        }
+        return fileList;
+    }
+
+    @Override
+    public String uploadFile(MultipartFile file) {
         try {
             FileEntity doublicateFilename = fileRepository.findByFilename(file.getOriginalFilename());
             if (isNull(doublicateFilename)) {
@@ -55,8 +59,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String deleteFile(String authToken, String filename) {
-        checkTokenService.testToken(authToken);
+    public String deleteFile(String filename) {
         FileEntity file = fileRepository.findByFilename(filename);
         if (isNull(file)) {
             throw new DeleteFileException(ERROR_DELETE_FILENAME);
@@ -65,14 +68,11 @@ public class FileServiceImpl implements FileService {
         return SUCCESS_DELETE;
     }
 
-
     @Override
-    public ResponseEntity<FileEntity> getFile(String authToken, String filename) {
-        checkTokenService.testToken(authToken);
+    public ResponseEntity<FileEntity> getFile(String filename) {
         FileEntity file = fileRepository.findByFilename(filename);
         return prepareFilesInfo(file);
     }
-
 
     private ResponseEntity prepareFilesInfo(FileEntity file) {
         return ResponseEntity.ok()
@@ -83,8 +83,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String renameFile(String authToken, String filename, NewFilenameRequest nf) {
-        checkTokenService.testToken(authToken);
+    public String renameFile(String filename, NewFilenameRequest nf) {
         FileEntity file = fileRepository.findByFilename(filename);
         if (isNull(file)) {
             log.error("Error rename file: " + filename + ". Please try again!");
@@ -94,18 +93,5 @@ public class FileServiceImpl implements FileService {
         fileRepository.save(file);
         log.info("Successful rename file: " + filename);
         return SUCCESS_RENAME;
-    }
-
-
-    @Override
-    public List<FileResponse> getAllFiles(String authToken, Integer limit) {
-        checkTokenService.testToken(authToken);
-        List<FileEntity> fileList = fileRepository.findAll();
-        if (fileList.isEmpty()) {
-            throw new GettingFileListException(ERROR_GETTING_FILE_LIST);
-        }
-        return fileList.stream().map(f -> new FileResponse(f.getFilename(), f.getSize()))
-                .limit(limit)
-                .collect(Collectors.toList());
     }
 }

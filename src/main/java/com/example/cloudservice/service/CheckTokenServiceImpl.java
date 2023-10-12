@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import static com.example.cloudservice.exceptions.MessageConstant.TOKEN_INVALID;
 import static com.example.cloudservice.exceptions.MessageConstant.TOKEN_PREFIX;
+
 @Service
 @RequiredArgsConstructor
 public class CheckTokenServiceImpl implements CheckTokenService {

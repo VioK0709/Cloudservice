@@ -23,7 +23,6 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class UserServiceTest {
 
-
     @MockBean
     private AuthToken authToken;
 
