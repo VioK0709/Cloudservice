@@ -56,7 +56,6 @@ public class FileController {
         return fileService.getFile(filename);
     }
 
-
     @PutMapping(FILE)
     public ResponseEntity<String> renameFile(@RequestHeader("auth-token") String authToken,
                                              @RequestParam String filename,
