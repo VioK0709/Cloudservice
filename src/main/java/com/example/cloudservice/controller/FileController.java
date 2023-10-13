@@ -63,7 +63,6 @@ public class FileController {
                 .body(file.getBody());
     }
 
-
     @PutMapping(FILE)
     public ResponseEntity<String> renameFile(@RequestHeader("auth-token") String authToken,
                                              @RequestParam String filename,
