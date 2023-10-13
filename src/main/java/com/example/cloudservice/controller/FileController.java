@@ -8,7 +8,9 @@ import com.example.cloudservice.service.CheckTokenService;
 import com.example.cloudservice.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,10 +52,15 @@ public class FileController {
     }
 
     @GetMapping(FILE)
-    public ResponseEntity<FileEntity> getFile(@RequestHeader("auth-token") String authToken,
+    public ResponseEntity<byte[]> getFile(@RequestHeader("auth-token") String authToken,
                                               @RequestParam("filename") String filename) {
         checkTokenService.testToken(authToken);
-        return fileService.getFile(filename);
+        FileEntity file = fileService.getFile(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders
+                        .CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .contentType(MediaType.valueOf(file.getType()))
+                .body(file.getBody());
     }
 
 

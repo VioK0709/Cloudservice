@@ -11,7 +11,7 @@ public class PrepareInfoForTest {
     public final static String FILENAME = "test.txt";
 
     public static MockMultipartFile getFileToUploadTest() {
-        return new MockMultipartFile("file",
+        return new MockMultipartFile("filename",
                 FILENAME, "text/plain", "some csv".getBytes());
     }
 

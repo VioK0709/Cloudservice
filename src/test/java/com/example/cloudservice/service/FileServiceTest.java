@@ -1,5 +1,6 @@
 package com.example.cloudservice.service;
 
+import com.example.cloudservice.model.entity.FileEntity;
 import com.example.cloudservice.repository.FileRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -20,6 +21,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static com.example.cloudservice.exceptions.MessageConstant.*;
 import static com.example.cloudservice.service.PrepareInfoForTest.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Testcontainers
@@ -39,7 +41,7 @@ public class FileServiceTest {
 
 
     public void mockRepo() {
-        getTestUserEntity();
+        getFileToUploadTest();
         fileRepository.save(getTestUserEntity());
     }
 
@@ -56,6 +58,8 @@ public class FileServiceTest {
                         .characterEncoding("UTF-8")
                         .header("auth-token", TOKEN))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+        FileEntity file = fileRepository.findByFilename(FILENAME);
+        assertNotNull(file);
     }
 
     @Test
@@ -80,7 +84,7 @@ public class FileServiceTest {
         mockRepo();
         Mockito.doNothing().when(checkTokenService).testToken(TOKEN);
         mockMvc.perform(MockMvcRequestBuilders.delete(FILE)
-                        .param("filename", FILENAME)
+                        .param(getFileToUploadTest().getName(), FILENAME)
                         .characterEncoding("UTF-8")
                         .header("auth-token", TOKEN))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -91,7 +95,7 @@ public class FileServiceTest {
         mockRepo();
         Mockito.doNothing().when(checkTokenService).testToken(TOKEN);
         mockMvc.perform(MockMvcRequestBuilders.get(FILE)
-                        .param("filename", FILENAME)
+                        .param(getFileToUploadTest().getName(), FILENAME)
                         .characterEncoding("UTF-8")
                         .header("auth-token", TOKEN)
                         .contentType(MediaType.APPLICATION_JSON))

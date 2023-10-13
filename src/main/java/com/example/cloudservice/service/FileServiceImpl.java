@@ -9,9 +9,6 @@ import com.example.cloudservice.security.JwtTokenUtils;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,17 +66,9 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public ResponseEntity<FileEntity> getFile(String filename) {
-        FileEntity file = fileRepository.findByFilename(filename);
-        return prepareFilesInfo(file);
-    }
+    public FileEntity getFile(String filename) {
+        return fileRepository.findByFilename(filename);
 
-    private ResponseEntity prepareFilesInfo(FileEntity file) {
-        return ResponseEntity.ok()
-                .header(HttpHeaders
-                        .CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-                .contentType(MediaType.valueOf(file.getType()))
-                .body(file.getBody());
     }
 
     @Override
